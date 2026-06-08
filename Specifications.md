@@ -1,21 +1,14 @@
 # Project Spec: **CLI Text Utilities**
 
-## 1) Project Summary
+## 1. Project Summary
 
-**Project name:** `textutils`  
+**Project name:** `clitextutils`  
 **Type:** Interactive command-line application  
 **Goal:** Build a small but well-structured Go CLI that lets a user enter text and run simple analyses/transforms on it.
 
-### Why this is a strong Chapters 1–4 project
-This project naturally exercises:
-- **basic syntax and variables** for text input/output, citeturn1search6turn1search16
-- **conditionals and loops** for menu navigation and per-character checks, citeturn1search6
-- **functions** for analysis and transformation operations, including return values, citeturn1search6
-- **packages** for organizing the logic into reusable modules. citeturn1search6
-
 ---
 
-## 2) Target Outcome
+## 2. Target Outcome
 
 By the end of the project, the CLI should let the user:
 
@@ -24,17 +17,11 @@ By the end of the project, the CLI should let the user:
 - see the result,
 - and continue using the program until they choose to exit.
 
-This keeps the project interactive, small enough to finish, and structured enough to feel like a real program.
-
 ---
 
-## 3) Functional Scope
-
-## Core features (required)
-
-I suggest implementing these **6 features**:
-
-### A. Character count
+## 3. Functional Scope
+### 3.1 Counts
+#### 3.1.1 Character count
 Return the total number of characters in the input text.
 
 **Example:**  
@@ -43,7 +30,7 @@ Output: `11 characters`
 
 ---
 
-### B. Word count
+#### 3.1.2 Word count
 Return the number of words in the input text.
 
 **Example:**  
@@ -52,21 +39,82 @@ Output: `3 words`
 
 ---
 
-### C. Vowel count
+#### 3.1.3 Vowel count
 Count how many vowels appear in the text.
 
 **Example:**  
-Input: `Mauricio`  
-Output: `5 vowels`
+Input: `Go is fun`  
+Output: `3 vowels`
 
 ---
 
-### D. Uppercase / lowercase detector
+#### 3.1.4 Consonant count
+Count how many consonants appear in the text.
+
+**Example:**
+Input: `Go is fun`
+Output: `4 consonants`
+
+---
+
+#### 3.1.5 Number count
+Count how many numbers appear in the text.
+
+**Example:**
+Input: `Go is 1-2-3 fun`
+Output: `3 numbers`
+
+---
+
+#### 3.1.6 Special character count
+Count how many non-alphanumeric characters appear in the text.
+|Name|Character|Type|ASCII|
+|:---:|:---:|:---:|:---:|
+|Space|` `|Whitespace||
+|Period/Full stop|`.`|Punctuation||
+|Comma|`,`|Punctuation||
+|Semicolon|`;`|Punctuation||
+|Colon|`:`|Punctuation||
+|Exclamation mark|`!`|Punctuation||
+|Question mark|`?`|Punctuation||
+|Apostrophe|`'`|Quotation||
+|Double quote|`"`|Quotation||
+|Opening parentheses|`(`|Brackets||
+|Closing parentheses|`)`|Brackets||
+|Opening square bracket|`[`|Brackets||
+|Closing square bracket|`]`|Brackets||
+|Opening curly brace|`{`|Brackets||
+|Closing curly brace|`}`|Brackets||
+|Opening angle bracket|`<`|Brackets||
+|Closing angle bracket|`>`|Brackets||
+|Hyphen/Minus|`-`|Slashes||
+|Underscore|`_`|Slashes||
+|Forward slash|`/`|Slashes||
+|Backslash|`\`|Slashes||
+|Vertical bar/Pipe|`|`|Slashes||
+|Plus|`+`|Math||
+|Asterisk|`*`|Math||
+|Equals|`=`|Math||
+|Percent|`%`|Math||
+|Caret|`^`|Math||
+|At sign|`@`|Special||
+|Hash / number sign|`#`|Special||
+|Dollar sign|`$`|Special||
+|Ampersand|`&`|Special||
+|Tilde|`~`|Special||
+|Backtick / grave accent|`\``|Special||
+
+**Example:**
+Input: `Go is @1-2-3 fun`
+Output: `6 special characters`
+
+---
+
+### 3.2 Case detection
 Report:
 - whether the text is all uppercase,
 - all lowercase,
 - mixed case,
-- or contains no letters.
 
 **Example:**  
 Input: `HELLO` → `all uppercase`  
@@ -75,7 +123,10 @@ Input: `Hello123` → `mixed case`
 
 ---
 
-### E. Reverse text
+### 3.3 Transformations
+https://www.geeksforgeeks.org/computer-networks/encryption-vs-hashing-vs-salting/
+
+#### 3.3.1 Reverse text
 Return the input text reversed.
 
 **Example:**  
@@ -84,7 +135,22 @@ Output: `rehpog`
 
 ---
 
-### F. Password strength checker
+#### 3.3.1 Add salt
+
+
+---
+
+#### 3.3.2 Hash it
+
+
+---
+
+#### 3.3.3 Encode it
+
+
+---
+
+### 3.4. Password strength checker
 Classify a string as:
 - `weak`
 - `medium`
