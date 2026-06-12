@@ -1,6 +1,6 @@
-# CLI Text Utilities
+# Password Utils
 
-A small interactive Go command-line application that lets you enter text and run simple analyses and transformations on it.
+A small interactive Go command-line application that lets you enter a string representing a password and run simple analyses and transformations on it.
 
 ## Table of Contents
 - [Features](#features)
@@ -13,8 +13,8 @@ A small interactive Go command-line application that lets you enter text and run
 - [License](#license)
 
 ## Features
-
-- Character count
+- Password length
+- Character count (no whitespace)
 - Word count
 - Vowel count
 - Consonant count
@@ -27,9 +27,8 @@ A small interactive Go command-line application that lets you enter text and run
 - Password hash
 
 ## Project Structure
-
 ```text
-clitextutils/
+gopwdutil/
 ├── main.go
 ├── ui/
 │   └── menu.go
@@ -56,9 +55,9 @@ clitextutils/
 If you are starting from scratch, create the folder and initialize a Go module:
 
 ```bash
-mkdir textutils
-cd textutils
-go mod init textutils
+mkdir 
+cd gopwdutil
+go mod init gopwdutil
 ```
 
 Then add the files and folders from the project spec.
@@ -136,3 +135,29 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 ## License
 
 This project is licensed under the [MIT License](./LICENSE.md)
+
+
+# Review before finishing
+## Security Notes
+- The password is stored as a plain `string` in memory for simplicity.
+  A production-grade tool would use a mutable `[]byte` buffer and 
+  explicitly zero it out on exit to reduce the window of exposure.
+
+```go
+func ShowMainMenu() {
+    pwd := make([]byte, 0, 64)
+    defer func() { 
+        for i := range pwd { pwd[i] = 0 }
+    }()
+    // ...
+}
+```
+
+<!-- TODO Package-level validation helpers: having a tools package with IsEmpty/IsWhiteSpace is fine, but strings.TrimSpace(s) == "" covers both cases in one line and is part of the stdlib. -->
+
+<!-- TODO  File naming: Go convention is snake_case or all lowercase for filenames (e.g., wordcount.go, not WordCount.go). PascalCase filenames are unusual and can confuse tooling.-->
+
+<!-- TODO Return -1 for errors: Go's idiomatic error handling is returning (int, error) tuples, not sentinel values like -1. For example: -->
+
+<!-- TODO Mixing concerns: functions like WordCount both compute a result and call fmt.Printf. In Go it's idiomatic to separate computation from I/O. Return the value and let the caller (menu/UI layer) handle printing. => Address after basic implementation of each count function, allow to pass the value to Strength Analysis-->
+
