@@ -10,7 +10,7 @@ func ShowMainMenu(ppwd *string) {
 	choice := 0
 	
 	for !exit {
-		fmt.Println("========= Main Menu =========")
+		fmt.Println("=========== Main Menu ============")
 		tools.DisplayCurrentPassword(ppwd)
 		fmt.Println("1) Input tools")
 		fmt.Println("2) Analysis tools")

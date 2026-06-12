@@ -1,9 +1,9 @@
-# Project Spec: **CLI Text Utilities**
+# Project Spec: **Go Password Utils**
 
 ## 1. Project Summary
 
-**Project name:** `clitextutils`  
-**Type:** Interactive command-line application  
+**Project name:** `gopwdutil`  
+**Type:** Interactive command-line application to create and analyse a password
 **Goal:** Build a small but well-structured Go CLI that lets a user enter text and run simple analyses/transforms on it.
 
 ---

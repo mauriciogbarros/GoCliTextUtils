@@ -13,7 +13,7 @@ func ShowAnalysisMenu(ppwd *string) {
 	choice := 0
 
 	for !returnToMain {
-		fmt.Println("===== Password Analysis =====")
+		fmt.Println("======= Password Analysis ========")
 		tools.DisplayCurrentPassword(ppwd)
 		fmt.Println("1) Character count")
 		fmt.Println("2) Word count")

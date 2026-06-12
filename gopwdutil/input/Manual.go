@@ -13,7 +13,7 @@ var reader = bufio.NewReader(os.Stdin)
 
 func Manual(ppwd *string) {
 	if ppwd == nil { return }
-	fmt.Println("======= Manual Input ========")
+	fmt.Println("========== Manual Input ==========")
 	fmt.Println("From 8 to 16 characters long")
 	fmt.Print("New password: ")
 

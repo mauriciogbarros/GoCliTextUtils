@@ -9,7 +9,7 @@ func main() {
 	pwd := ""
 	defer func() { pwd = "" }()
 
-	fmt.Println("===== Go Password Utils =====")
+	fmt.Println("======= Go Password Utils ========")
 	ui.ShowMainMenu(&pwd)
 	fmt.Println("Password erased... Goodbye!")
 }

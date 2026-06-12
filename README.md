@@ -161,4 +161,3 @@ This project is licensed under the [MIT License](./LICENSE.md)
 <!-- TODO Return -1 for errors: Go's idiomatic error handling is returning (int, error) tuples, not sentinel values like -1. For example: -->
 
 <!-- TODO Mixing concerns: functions like WordCount both compute a result and call fmt.Printf. In Go it's idiomatic to separate computation from I/O. Return the value and let the caller (menu/UI layer) handle printing. => Address after basic implementation of each count function, allow to pass the value to Strength Analysis-->
-
