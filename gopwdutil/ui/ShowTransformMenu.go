@@ -14,6 +14,7 @@ func ShowTransformMenu(ppwd *string) {
 
 	for !returnToMain {
 		fmt.Println("=== Transformations Menu ====")
+		tools.DisplayCurrentPassword(ppwd)
 		fmt.Println("1) Reverse password")
 		fmt.Println("2) Randomize password")
 		fmt.Println("3) Hash password")

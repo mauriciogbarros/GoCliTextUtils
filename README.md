@@ -112,6 +112,23 @@ When you run the application, it will prompt you to enter a piece of text. After
 4. Review the result.
 5. Choose another option or exit.
 
+## Future Improvements
+### Security
+- For simplicity, password was stored as a plain `string` in memory.
+- A production-grade tool would use a mutable `[]byte` buffer and 
+  explicitly zero it out on exit to reduce the window of exposure.
+- The code snippet below shows and example.
+
+```go
+func ShowMainMenu() {
+    pwd := make([]byte, 0, 64)
+    defer func() { 
+        for i := range pwd { pwd[i] = 0 }
+    }()
+    // ...
+}
+```
+
 ## Notes
 
 - This README assumes the application entry point is `main.go` in the project root.
@@ -138,22 +155,6 @@ This project is licensed under the [MIT License](./LICENSE.md)
 
 
 # Review before finishing
-## Security Notes
-- The password is stored as a plain `string` in memory for simplicity.
-  A production-grade tool would use a mutable `[]byte` buffer and 
-  explicitly zero it out on exit to reduce the window of exposure.
-
-```go
-func ShowMainMenu() {
-    pwd := make([]byte, 0, 64)
-    defer func() { 
-        for i := range pwd { pwd[i] = 0 }
-    }()
-    // ...
-}
-```
-
-<!-- TODO Package-level validation helpers: having a tools package with IsEmpty/IsWhiteSpace is fine, but strings.TrimSpace(s) == "" covers both cases in one line and is part of the stdlib. -->
 
 <!-- TODO  File naming: Go convention is snake_case or all lowercase for filenames (e.g., wordcount.go, not WordCount.go). PascalCase filenames are unusual and can confuse tooling.-->
 

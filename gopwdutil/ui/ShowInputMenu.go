@@ -14,6 +14,7 @@ func ShowInputMenu(ppwd *string) {
 	
 	for !returnToMain {
 		fmt.Println("======== Input Menu =========")
+		tools.DisplayCurrentPassword(ppwd)
 		fmt.Println("1) Manual input")
 		fmt.Println("2) Load from clipboard")
 		fmt.Println("3) Generate random string")

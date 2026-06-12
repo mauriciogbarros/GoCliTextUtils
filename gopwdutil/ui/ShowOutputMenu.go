@@ -14,6 +14,7 @@ func ShowOutputMenu(ppwd *string) {
 
 	for !returnToMain {
 		fmt.Println("======== Output Menu ========")
+		tools.DisplayCurrentPassword(ppwd)
 		fmt.Println("1) To screen")
 		fmt.Println("2) To clipboard")
 		fmt.Println("3) To file")

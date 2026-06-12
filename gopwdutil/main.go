@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
+	pwd := ""
+	defer func() { pwd = "" }()
+
 	fmt.Println("===== Go Password Utils =====")
-	ui.ShowMainMenu()
-	fmt.Println("Exiting... Goodbye!")
+	ui.ShowMainMenu(&pwd)
+	fmt.Println("Password erased... Goodbye!")
 }

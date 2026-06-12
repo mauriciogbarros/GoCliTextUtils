@@ -12,13 +12,8 @@ func CharCount(ppwd *string) (int) {
 	fmt.Println("======= Character Count ========")
 	fmt.Println("* Non-whitespace characters only")
 
-	if tools.IsEmpty(*ppwd) {
-		fmt.Println("Error: Empty string provided.")
-		return -1
-	}
-
-	if tools.IsWhiteSpace(*ppwd) {
-		fmt.Println("Error: Only whitespace provided.")
+	if !tools.IsValidString(ppwd) {
+		fmt.Println("Error: Invalid string provided.")
 		return -1
 	}
 
