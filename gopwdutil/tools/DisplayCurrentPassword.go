@@ -1,16 +1,14 @@
 package tools
 
-import (
-	"fmt"
-)
+import "fmt"
 
-func DisplayCurrentPassword(ppwd *string) {
+func DisplayCurrentPassword(ppwd *[]rune) {
 	if ppwd == nil { return }
-
+	
 	fmt.Print("Current password: ")
-	if *ppwd == "" {
+	if len(*ppwd) == 0 {
 		fmt.Println("<Empty>")
 	} else {
-		fmt.Println(*ppwd)
+		fmt.Println(string(*ppwd))
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ToClipboard(ppwd *string) {
+func ToClipboard(ppwd *[]rune) {
 	if ppwd == nil { return }
 	
 	fmt.Println("Output to clipboard: under construction")

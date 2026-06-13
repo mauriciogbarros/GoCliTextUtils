@@ -1,43 +1,48 @@
 package input
 
 import (
-	"bufio"
 	"fmt"
-	"gopwdutil/analysis/count"
-	"gopwdutil/tools"
-	"os"
 	"strings"
 )
 
-var reader = bufio.NewReader(os.Stdin)
-
-func Manual(ppwd *string) {
+func Manual(ppwd *[]rune, minLength int, maxLength int) {
 	if ppwd == nil { return }
+	
 	fmt.Println("========== Manual Input ==========")
-	fmt.Println("From 8 to 16 characters long")
+	fmt.Printf("From %d to %d characters long\n", minLength, maxLength)
 	fmt.Print("New password: ")
 
-	line, err := reader.ReadString('\n')
-	raw := strings.TrimRight(line, "\r\n")
-	if err != nil {
-		fmt.Println("Error: invalid input.")
-		fmt.Println()
+	var new_pwd []rune
+	for {
+		r, _, err := reader.ReadRune()
+		if err != nil {
+			fmt.Println("Error: failed to capture")
+			return
+		}
+		if r == '\n' || r =='\r' {
+			break
+		}
+
+		new_pwd = append(new_pwd, r)
+	}
+
+	if len(new_pwd) < 8 || len(new_pwd) > 16 {
+		fmt.Println("Error: invalid password length.")
 		return
 	}
 
-	if !tools.IsValidString(&raw) {
-		fmt.Println("Error: empty or white space only.")
-		fmt.Println()
+	if strings.TrimSpace(string(new_pwd)) == "" {
+		fmt.Println("Error: white space only.")
 		return
 	}
 
-	length := count.Chars(&raw)
-	if length < 8 || length > 16 {
-		fmt.Println("Error: invalid password.")
-		fmt.Println()
-		return
+	for i := range *ppwd { (*ppwd)[i] = 0 }
+
+	for i := 0; i < len(new_pwd); i++ {
+		*ppwd = append(*ppwd, new_pwd[i])
 	}
 
-	*ppwd = raw
-	fmt.Println()
+	for i := range(new_pwd) {
+		new_pwd[i] = 0
+	}
 }

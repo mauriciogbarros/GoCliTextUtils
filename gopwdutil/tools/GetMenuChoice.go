@@ -1,14 +1,10 @@
 package tools
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
-
-var reader = bufio.NewReader(os.Stdin)
 
 func GetMenuChoice(maxOption int) int {
 	fmt.Print("Choice: ")
@@ -20,7 +16,12 @@ func GetMenuChoice(maxOption int) int {
 		return -1
 	}
 
-	if choice < 0 || choice > maxOption {
+	if maxOption == 0 {
+		if choice != 0 {
+			fmt.Println("Error: Invalid option.")
+			return -1
+		}
+	} else if choice < 0 || choice > maxOption {
 		fmt.Println("Error: Invalid option.")
 		return -1
 	}

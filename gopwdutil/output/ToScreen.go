@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ToScreen(ppwd *string) {
+func ToScreen(ppwd *[]rune) {
 	if ppwd == nil { return }
 	
 	fmt.Println("Password:", *ppwd)

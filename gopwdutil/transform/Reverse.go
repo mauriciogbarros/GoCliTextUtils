@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func Reverse(ppwd *string) {
+func Reverse(ppwd *[]rune) {
 	if ppwd == nil { return }
 	
 	fmt.Println("Reverse password: under construction")
