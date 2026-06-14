@@ -5,25 +5,25 @@ import (
 	"strings"
 )
 
-func Manual(ppwd *[]rune, minLength int, maxLength int) {
+func Manual(ppwd *[]byte, minLength int, maxLength int) {
 	if ppwd == nil { return }
 	
 	fmt.Println("========== Manual Input ==========")
 	fmt.Printf("From %d to %d characters long\n", minLength, maxLength)
 	fmt.Print("New password: ")
 
-	var new_pwd []rune
+	var new_pwd []byte
 	for {
-		r, _, err := reader.ReadRune()
+		b, err := reader.ReadByte()
 		if err != nil {
 			fmt.Println("Error: failed to capture")
 			return
 		}
-		if r == '\n' || r =='\r' {
+		if b == '\n' || b =='\r' {
 			break
 		}
 
-		new_pwd = append(new_pwd, r)
+		new_pwd = append(new_pwd, b)
 	}
 
 	if len(new_pwd) < minLength || len(new_pwd) > maxLength {

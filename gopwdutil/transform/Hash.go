@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func Hash(ppwd *[]rune) {
+func Hash(ppwd *[]byte) {
 	if ppwd == nil { return }
 	
 	fmt.Println("Hash password: under construction")

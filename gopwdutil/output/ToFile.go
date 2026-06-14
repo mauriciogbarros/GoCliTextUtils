@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ToFile(ppwd *[]rune) {
+func ToFile(ppwd *[]byte) {
 	if ppwd == nil { return }
 	
 	fmt.Println("Output to file: under construction")

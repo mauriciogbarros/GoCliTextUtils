@@ -1,6 +1,6 @@
 package analysis
 
-var lowercase = []rune("abcdefghijklmnopqrstuvwxyz")
-var uppercase = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-var numeric = []rune("0123456789")
-var special = []rune(" .,;:!?'\"()[]{}<>-_/\\|+*=%^@#$&~`")
+var lowercase = []byte("abcdefghijklmnopqrstuvwxyz")
+var uppercase = []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var numeric = []byte("0123456789")
+var special = []byte(" .,;:!?'\"()[]{}<>-_/\\|+*=%^@#$&~`")

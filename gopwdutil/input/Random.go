@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func Random(ppwd *[]rune, minLength int, maxLength int) {
+func Random(ppwd *[]byte, minLength int, maxLength int) {
 	if ppwd == nil { return }
 
 	fmt.Println("======== Generate Random =========")

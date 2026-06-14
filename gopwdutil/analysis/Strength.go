@@ -2,7 +2,7 @@ package analysis
 
 import "fmt"
 
-func Strength(ppwd *[]rune) {
+func Strength(ppwd *[]byte) {
 	if ppwd == nil { return }
 
 	score := 0
@@ -10,10 +10,10 @@ func Strength(ppwd *[]rune) {
 
 	scoreLength := 0
 	switch {
-		case length >= 128: scoreLength += 32
-		case length >= 64:  scoreLength += 16
-		case length >= 32:  scoreLength += 8
-		case length >= 16:  scoreLength += 4
+		case length >= 72:  scoreLength += 32
+		case length >= 36:  scoreLength += 16
+		case length >= 18:  scoreLength += 8
+		case length >= 14:  scoreLength += 4
 		case length >= 8:   scoreLength += 2
 	}
 	score += scoreLength

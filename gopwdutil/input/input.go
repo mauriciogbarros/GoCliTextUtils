@@ -7,4 +7,4 @@ import (
 
 var reader = bufio.NewReader(os.Stdin)
 
-var characters = []rune("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,;:!?'\"()[]{}<>-_/\\|+*=%^@#$&~`")
+var characters = []byte("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,;:!?'\"()[]{}<>-_/\\|+*=%^@#$&~`")

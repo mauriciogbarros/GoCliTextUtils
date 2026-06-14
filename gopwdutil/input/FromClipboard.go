@@ -7,7 +7,7 @@ import (
 	"golang.design/x/clipboard"
 )
 
-func FromClipboard(ppwd *[]rune, minLength int, maxLength int) {
+func FromClipboard(ppwd *[]byte, minLength int, maxLength int) {
 	if ppwd == nil { return }
 	
 	fmt.Println("====== Load from Clipboard =======")
@@ -39,8 +39,10 @@ func FromClipboard(ppwd *[]rune, minLength int, maxLength int) {
 	}
 
 	for i := range *ppwd { (*ppwd)[i] = 0 }
-	*ppwd = []rune(string(data))
-
+	for i := range data {
+		*ppwd = append(*ppwd, data[i])
+	}
+	
 	clipboard.Write(clipboard.FmtText, []byte(""))
 	for i := range(data) { data[i] = 0 }
 }

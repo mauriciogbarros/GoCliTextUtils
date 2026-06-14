@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func Repeated(ppwd *[]rune) {
+func Repeated(ppwd *[]byte) {
 	if ppwd == nil { return }
 
 	fmt.Println("======> Repeated:")
@@ -24,17 +24,17 @@ func Repeated(ppwd *[]rune) {
 	fmt.Scanln()
 }
 
-func getRepeated(ppwd *[]rune) map[rune]int {
-	repeated := map[rune]int{}
-	for _, r := range *ppwd {
-		if r != 0 {
-			repeated[r]++
+func getRepeated(ppwd *[]byte) map[byte]int {
+	repeated := map[byte]int{}
+	for _, b := range *ppwd {
+		if b != 0 {
+			repeated[b]++
 		}
 	}
 
-	for r, n := range repeated {
+	for b, n := range repeated {
 		if n == 1 {
-			delete(repeated, r)
+			delete(repeated, b)
 		}
 	}
 

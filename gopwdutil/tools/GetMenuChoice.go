@@ -7,7 +7,6 @@ import (
 )
 
 func GetMenuChoice(maxOption int) int {
-	fmt.Print("Choice: ")
 	line, _ := reader.ReadString('\n')
 	raw := strings.TrimRight(line, "\r\n")
 	choice, err := strconv.Atoi(raw)

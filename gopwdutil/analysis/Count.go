@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Count(ppwd *[]rune, choice int) {
+func Count(ppwd *[]byte, choice int) {
 	if ppwd == nil { return }
 
 	count := get_count(ppwd, choice)
@@ -38,7 +38,7 @@ func get_count_type(choice int) string {
 	return count_type
 }
 
-func get_count(ppwd *[]rune, choice int) int {
+func get_count(ppwd *[]byte, choice int) int {
 	count := 0
 	switch choice {
 		case 1: count = count_char(ppwd)
@@ -74,56 +74,56 @@ func get_count_unit(count int, choice int) string {
 	return unit
 }
 
-func count_char(ppwd *[]rune) int {
+func count_char(ppwd *[]byte) int {
 	return len(strings.ReplaceAll(string(*ppwd), " ", ""))
 }
 
-func count_word(ppwd *[]rune) int {
+func count_word(ppwd *[]byte) int {
 	return len(strings.Fields(string(*ppwd)))
 }
 
-func count_letter(ppwd *[]rune) int {
+func count_letter(ppwd *[]byte) int {
 	var letters = append(lowercase, uppercase...)
 
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsRune((*ppwd)[i], letters) { count += 1 }
+		if tools.ContainsByte((*ppwd)[i], letters) { count += 1 }
 	}
 
 	return count
 }
 
-func count_upper(ppwd *[]rune) int {
+func count_upper(ppwd *[]byte) int {
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsRune((*ppwd)[i], uppercase) { count += 1 }
+		if tools.ContainsByte((*ppwd)[i], uppercase) { count += 1 }
 	}
 
 	return count
 }
 
-func count_lower(ppwd *[]rune) int {
+func count_lower(ppwd *[]byte) int {
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsRune((*ppwd)[i], lowercase) { count += 1 }
+		if tools.ContainsByte((*ppwd)[i], lowercase) { count += 1 }
 	}
 
 	return count
 }
 
-func count_numeric(ppwd *[]rune) int {
+func count_numeric(ppwd *[]byte) int {
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsRune((*ppwd)[i], numeric) { count += 1 }
+		if tools.ContainsByte((*ppwd)[i], numeric) { count += 1 }
 	}
 
 	return count
 }
 
-func count_special(ppwd *[]rune) int {
+func count_special(ppwd *[]byte) int {
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsRune((*ppwd)[i], special) { count += 1 }
+		if tools.ContainsByte((*ppwd)[i], special) { count += 1 }
 	}
 
 	return count
