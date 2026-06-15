@@ -5,7 +5,9 @@ import (
 )
 
 func ToScreen(ppwd *[]byte) {
-	if ppwd == nil { return }
-	
+	if ppwd == nil {
+		return
+	}
+
 	fmt.Println("Password:", string(*ppwd))
 }

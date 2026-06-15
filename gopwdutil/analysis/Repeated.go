@@ -5,10 +5,12 @@ import (
 )
 
 func Repeated(ppwd *[]byte) {
-	if ppwd == nil { return }
+	if ppwd == nil {
+		return
+	}
 
 	fmt.Println("======> Repeated:")
-	
+
 	repeated := getRepeated(ppwd)
 	if len(repeated) == 0 {
 		fmt.Println("        No repeated characters.")
@@ -25,11 +27,15 @@ func Repeated(ppwd *[]byte) {
 }
 
 func getRepeated(ppwd *[]byte) map[byte]int {
-	if ppwd == nil { return nil }
+	if ppwd == nil {
+		return nil
+	}
 
 	repeated := map[byte]int{}
 	for _, b := range *ppwd {
-		if b != 0 {	repeated[b]++	}
+		if b != 0 {
+			repeated[b]++
+		}
 	}
 
 	for b, n := range repeated {

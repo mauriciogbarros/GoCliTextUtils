@@ -10,7 +10,9 @@ import (
 )
 
 func Random(ppwd *[]byte, minLength int, maxLength int) {
-	if ppwd == nil { return }
+	if ppwd == nil {
+		return
+	}
 
 	fmt.Println("======== Generate Random =========")
 	fmt.Printf("min %d, max %d characters\n", minLength, maxLength)

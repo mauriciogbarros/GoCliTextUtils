@@ -22,10 +22,14 @@ func main() {
 			exit = true
 		} else {
 			switch choice {
-				case 1: utils.Input(&pwd, minLength, maxLength)
-				case 2: utils.Analysis(&pwd)
-				case 3: utils.Transform(&pwd)
-				case 4: utils.Output(&pwd)
+			case 1:
+				utils.Input(&pwd, minLength, maxLength)
+			case 2:
+				utils.Analysis(&pwd)
+			case 3:
+				utils.Transform(&pwd)
+			case 4:
+				utils.Output(&pwd)
 			}
 		}
 	}
@@ -33,7 +37,7 @@ func main() {
 	fmt.Println("Erasing password ....")
 	// Zero out password bytes in memory before exit to avoid leaving sensitive data behind
 	tools.Reset(&pwd)
-	
+
 	fmt.Println("...")
 	fmt.Println("Password erased.")
 	fmt.Println("Goodbye!")

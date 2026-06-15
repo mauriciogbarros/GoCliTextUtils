@@ -5,7 +5,9 @@ import (
 )
 
 func Salt(ppwd *[]byte) {
-	if ppwd == nil { return }
-	
+	if ppwd == nil {
+		return
+	}
+
 	fmt.Println("Salt password: under construction")
 }

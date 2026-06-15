@@ -8,13 +8,15 @@ import (
 )
 
 func Scramble(ppwd *[]byte) {
-	if ppwd == nil { return }
+	if ppwd == nil {
+		return
+	}
 
 	fmt.Println("Scrambling ...")
 	length := len(*ppwd)
 	scrambled := []byte{}
 	for i := 0; i < length; i++ {
-		j, err := rand.Int(rand.Reader, big.NewInt(int64(length - i)))
+		j, err := rand.Int(rand.Reader, big.NewInt(int64(length-i)))
 		if err != nil {
 			fmt.Println("Error: randomizing error")
 			return

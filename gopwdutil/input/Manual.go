@@ -7,8 +7,10 @@ import (
 )
 
 func Manual(ppwd *[]byte, minLength int, maxLength int) {
-	if ppwd == nil { return }
-	
+	if ppwd == nil {
+		return
+	}
+
 	fmt.Println("========== Manual Input ==========")
 	fmt.Printf("From %d to %d characters long\n", minLength, maxLength)
 	fmt.Print("New password: ")
@@ -20,7 +22,7 @@ func Manual(ppwd *[]byte, minLength int, maxLength int) {
 			fmt.Println("Error: failed to capture")
 			return
 		}
-		if b == '\n' || b =='\r' {
+		if b == '\n' || b == '\r' {
 			break
 		}
 
@@ -29,13 +31,17 @@ func Manual(ppwd *[]byte, minLength int, maxLength int) {
 
 	if len(newPwd) < minLength || len(newPwd) > maxLength {
 		fmt.Println("Error: invalid password length.")
-		for i := range newPwd { newPwd[i] = 0 }
+		for i := range newPwd {
+			newPwd[i] = 0
+		}
 		return
 	}
 
 	if strings.TrimSpace(string(newPwd)) == "" {
 		fmt.Println("Error: white space only.")
-		for i := range newPwd { newPwd[i] = 0 }		
+		for i := range newPwd {
+			newPwd[i] = 0
+		}
 		return
 	}
 
@@ -45,7 +51,7 @@ func Manual(ppwd *[]byte, minLength int, maxLength int) {
 		*ppwd = append(*ppwd, newPwd[i])
 	}
 
-	for i := range(newPwd) {
+	for i := range newPwd {
 		newPwd[i] = 0
 	}
 }

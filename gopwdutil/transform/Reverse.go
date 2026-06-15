@@ -5,10 +5,12 @@ import (
 )
 
 func Reverse(ppwd *[]byte) {
-	if ppwd == nil { return }
-	
+	if ppwd == nil {
+		return
+	}
+
 	fmt.Println("Reversing password... ")
-	for i, j := 0, len(*ppwd) - 1; i < j; i, j = i + 1, j - 1 {
+	for i, j := 0, len(*ppwd)-1; i < j; i, j = i+1, j-1 {
 		(*ppwd)[i], (*ppwd)[j] = (*ppwd)[j], (*ppwd)[i]
 	}
 	fmt.Println("Reversed password:", string(*ppwd))

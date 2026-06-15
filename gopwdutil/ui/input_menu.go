@@ -14,7 +14,6 @@ func InputMenu() int {
 	fmt.Println("0) Return to Main Menu")
 	fmt.Println(strings.Repeat("-", 34))
 	fmt.Print("Choice: ")
-	
+
 	return tools.GetChoice(3)
 }
-

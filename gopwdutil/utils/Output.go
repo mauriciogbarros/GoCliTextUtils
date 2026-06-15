@@ -7,7 +7,9 @@ import (
 )
 
 func Output(ppwd *[]byte) {
-	if ppwd == nil { return }
+	if ppwd == nil {
+		return
+	}
 
 	returnToMain := false
 	choice := 0
@@ -16,10 +18,14 @@ func Output(ppwd *[]byte) {
 		choice = ui.OutputMenu()
 
 		switch choice {
-			case 0: returnToMain = true
-			case 1: output.ToScreen(ppwd)
-			case 2: output.ToClipboard(ppwd)
-			case 3: output.ToFile(ppwd)
+		case 0:
+			returnToMain = true
+		case 1:
+			output.ToScreen(ppwd)
+		case 2:
+			output.ToClipboard(ppwd)
+		case 3:
+			output.ToFile(ppwd)
 		}
 		fmt.Println()
 	}

@@ -8,7 +8,9 @@ import (
 )
 
 func Hash(ppwd *[]byte) {
-	if ppwd == nil { return }
+	if ppwd == nil {
+		return
+	}
 	hash, err := bcrypt.GenerateFromPassword(*ppwd, bcrypt.DefaultCost)
 
 	if err != nil {
