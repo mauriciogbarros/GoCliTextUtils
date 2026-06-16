@@ -8,15 +8,15 @@ import (
 	"golang.design/x/clipboard"
 )
 
-func FromClipboard(ppwd *[]byte, minLength int, maxLength int) {
+func FromClipboard(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	fmt.Println("====== Load from Clipboard =======")
 	if err := clipboard.Init(); err != nil {
 		fmt.Println("Error:", err)
-		return
+		return err
 	}
 
 	// Clear clipboard first to ensure we read only what the user explicitly copies next
@@ -29,29 +29,27 @@ func FromClipboard(ppwd *[]byte, minLength int, maxLength int) {
 
 	if data == nil {
 		fmt.Println("Error: clipboard is empty.")
-		return
+		return tools.Errors.EmptyError
 	}
 
 	if strings.TrimSpace(string(data)) == "" {
 		fmt.Println("Error: white space only.")
 		clipboard.Write(clipboard.FmtText, []byte(""))
-		return
+		return tools.Errors.WhiteSpace
 	}
 
-	if len(data) < minLength || len(data) > maxLength {
+	if len(data) < tools.MinPassword || len(data) > tools.MaxPassword {
 		fmt.Println("Error: invalid password length")
 		clipboard.Write(clipboard.FmtText, []byte(""))
-		return
+		return tools.Errors.LengthError
 	}
 
 	tools.Reset(ppwd)
 
-	for i := range data {
-		*ppwd = append(*ppwd, data[i])
-	}
+	*ppwd = append(*ppwd, data...)
 
 	clipboard.Write(clipboard.FmtText, []byte(""))
-	for i := range data {
-		data[i] = 0
-	}
+	tools.Reset(&data)
+
+	return nil
 }

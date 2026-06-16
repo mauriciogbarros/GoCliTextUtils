@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func OutputMenu() int {
+func OutputMenu() (int, error) {
 	fmt.Println("========== Output Utils ==========")
 	fmt.Println("1) To screen")
 	fmt.Println("2) To clipboard")

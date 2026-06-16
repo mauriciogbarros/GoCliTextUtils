@@ -1,6 +1,8 @@
 # Password Utils
 
-A small interactive Go command-line application that lets you enter a string representing a password and run simple analyses and transformations on it.
+A small interactive Go command-line application that lets you enter a string representing a password and run analyses and transformations on it.
+
+This is a portfolio project and a study on password security. The values of password, salt, pepper, and hash are outputs of this program. On a production scenario, the password would not be saved as plain text, and the pepper would be stored outside of the database. Additionally, exporting to an external final is only part of this exercise and it should not be handled like in a real-world scenario.
 
 ## Table of Contents
 - [Features](#features)
@@ -144,3 +146,42 @@ This project is licensed under the [MIT License](./LICENSE.md)
 <!-- TODO Return -1 for errors: Go's idiomatic error handling is returning (int, error) tuples, not sentinel values like -1. For example: -->
 
 <!-- TODO Mixing concerns: functions like WordCount both compute a result and call fmt.Printf. In Go it's idiomatic to separate computation from I/O. Return the value and let the caller (menu/UI layer) handle printing. => Address after basic implementation of each count function, allow to pass the value to Strength Analysis-->
+
+## Improvements
+- Input => Random => Allow to choose which character sets the user wants to use.
+
+- tools => Refine SpecialChar into more categories.
+
+## Argon2
+### Time cost (t)
+- The number of times Argon2 runs over its memory
+- What it does:
+  - Increases CPU work
+  - Makes each password guess slower
+  - Roughly linear impact on runtime
+- Typical values: 2 - 4, 3 is a default in many system
+
+### Memory cost (m)
+- Amount of RAM (in KB) Argon2 uses
+- What it does:
+  - Main defense against attackers
+  - Forces attackers to allocate memory per guess
+  - Limits GPU/ASIC parallelism
+- Typical values:
+  - Minimum secure: ~19 MB (OWASP baseline)
+  - Typical login: 32 - 64 MB
+  - Strong security: 64 - 128 MB
+  - High security/offline: 128 - 256 MB+
+
+### Parallelism (p)
+- Number of threads (lanes) used during hashing
+- What it does:
+  - Utilizes multiple CPU cores
+  - Improves performance (speed) more than security
+  - Also affects internal memory mixing
+- Typical values:
+  - 1 - 4 threads
+  - Many production setups use p = 1 or match CPU cores available
+
+### Key length (l)
+- Length of the resulting hash (in bytes)

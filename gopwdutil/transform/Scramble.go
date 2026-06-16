@@ -7,9 +7,9 @@ import (
 	"math/big"
 )
 
-func Scramble(ppwd *[]byte) {
+func Scramble(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	fmt.Println("Scrambling ...")
@@ -19,7 +19,7 @@ func Scramble(ppwd *[]byte) {
 		j, err := rand.Int(rand.Reader, big.NewInt(int64(length-i)))
 		if err != nil {
 			fmt.Println("Error: randomizing error")
-			return
+			return err
 		}
 
 		// Pick a random index from the remaining unselected bytes, then remove it from the pool
@@ -38,4 +38,6 @@ func Scramble(ppwd *[]byte) {
 	fmt.Println("Scrambled password:", string(*ppwd))
 	fmt.Print("Press Enter to continue ...")
 	fmt.Scanln()
+
+	return nil
 }

@@ -2,32 +2,41 @@ package utils
 
 import (
 	"fmt"
+	"gopwdutil/tools"
 	"gopwdutil/transform"
 	"gopwdutil/ui"
 )
 
-func Transform(ppwd *[]byte) {
+func Transform(ppwd *tools.Password) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	returnToMain := false
-	choice := 0
+	var choice int
+	var err error
 
 	for !returnToMain {
-		choice = ui.TransformMenu()
+		choice, err = ui.TransformMenu()
+		if err != nil {
+			return err
+		}
 		switch choice {
 		case 0:
 			returnToMain = true
 		case 1:
-			transform.Reverse(ppwd)
+			transform.Reverse(&ppwd.Password)
 		case 2:
-			transform.Scramble(ppwd)
+			transform.Scramble(&ppwd.Password)
 		case 3:
-			transform.Hash(ppwd)
+			transform.Pepper(&ppwd.Pepper)
 		case 4:
-			transform.Salt(ppwd)
+			transform.Salt(&ppwd.Salt)
+		case 5:
+			transform.Hash(ppwd)
 		}
 		fmt.Println()
 	}
+
+	return nil
 }

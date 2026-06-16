@@ -3,17 +3,22 @@ package utils
 import (
 	"fmt"
 	"gopwdutil/analysis"
+	"gopwdutil/tools"
 	"gopwdutil/ui"
 )
 
-func Analysis(ppwd *[]byte) {
+func Analysis(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 	returnToMain := false
-	choice := 0
+	var choice int
+	var err error
 	for !returnToMain {
-		choice = ui.AnalysisMenu()
+		choice, err = ui.AnalysisMenu()
+		if err != nil {
+			return err
+		}
 		switch choice {
 		case 0:
 			returnToMain = true
@@ -26,4 +31,6 @@ func Analysis(ppwd *[]byte) {
 		}
 		fmt.Println()
 	}
+
+	return nil
 }

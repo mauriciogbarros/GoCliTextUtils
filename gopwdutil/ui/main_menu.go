@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func MainMenu(length int) int {
+func MainMenu(length int) (int, error) {
 	fmt.Println("=========== Main Menu ============")
 	fmt.Println("Password length:", length)
 	fmt.Println("1) Input tools")
@@ -20,13 +20,14 @@ func MainMenu(length int) int {
 	fmt.Println(strings.Repeat("-", 34))
 	fmt.Print("Choice: ")
 
-	choice := 0
+	var choice int
+	var err error
 	if length > 0 {
-		choice = tools.GetChoice(5)
+		choice, err = tools.GetChoice(5)
 	} else {
-		choice = tools.GetChoice(1)
+		choice, err = tools.GetChoice(1)
 	}
 	fmt.Println()
 
-	return choice
+	return choice, err
 }

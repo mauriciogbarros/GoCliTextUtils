@@ -1,14 +1,21 @@
 package analysis
 
-import "fmt"
+import (
+	"fmt"
+	"gopwdutil/tools"
+)
 
-func Strength(ppwd *[]byte) {
+func Strength(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	score := 0
-	length := countChar(ppwd)
+	length, err := countChar(ppwd)
+
+	if err != nil {
+		return err
+	}
 
 	// Score based on length tiers; longer passwords earn exponentially more points
 	scoreLength := 0
@@ -26,15 +33,36 @@ func Strength(ppwd *[]byte) {
 	}
 	score += scoreLength
 
-	scoreUpper := countUpper(ppwd)
-	scoreLower := countLower(ppwd)
-	scoreNumeric := countNumeric(ppwd)
-	scoreSpecial := countSpecial(ppwd)
+	scoreUpper, err := countUpper(ppwd)
+	if err != nil {
+		return err
+	}
+	score += scoreUpper
 
-	score += scoreUpper + scoreLower + scoreNumeric + scoreSpecial
+	scoreLower, err := countLower(ppwd)
+	if err != nil {
+		return err
+	}
+	score += scoreLower
+
+	scoreNumeric, err := countNumeric(ppwd)
+	if err != nil {
+		return err
+	}
+	score += scoreNumeric
+
+	scoreSpecial, err := countSpecial(ppwd)
+	if err != nil {
+		return err
+	}
+	score += scoreSpecial
 
 	// Penalize passwords with many repeated characters; fewer repeats = higher score
-	repeatedCount := len(getRepeated(ppwd))
+	repeated, err := getRepeated(ppwd)
+	if err != nil {
+		return err
+	}
+	repeatedCount := len(repeated)
 	scoreRepeated := 0
 	switch {
 	case repeatedCount >= 4:
@@ -74,4 +102,6 @@ func Strength(ppwd *[]byte) {
 	fmt.Printf("======> Password strength: %s \n", label)
 	fmt.Print("        Press Enter to continue... ")
 	fmt.Scanln()
+
+	return nil
 }

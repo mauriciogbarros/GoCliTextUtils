@@ -2,16 +2,21 @@ package analysis
 
 import (
 	"fmt"
+	"gopwdutil/tools"
 )
 
-func Repeated(ppwd *[]byte) {
+func Repeated(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	fmt.Println("======> Repeated:")
 
-	repeated := getRepeated(ppwd)
+	repeated, err := getRepeated(ppwd)
+	if err != nil {
+		return err
+	}
+	
 	if len(repeated) == 0 {
 		fmt.Println("        No repeated characters.")
 	} else {
@@ -24,11 +29,13 @@ func Repeated(ppwd *[]byte) {
 
 	fmt.Print("        Press Enter to continue... ")
 	fmt.Scanln()
+
+	return nil
 }
 
-func getRepeated(ppwd *[]byte) map[byte]int {
+func getRepeated(ppwd *[]byte) (map[byte]int, error) {
 	if ppwd == nil {
-		return nil
+		return nil, tools.Errors.NilError
 	}
 
 	repeated := map[byte]int{}
@@ -44,5 +51,5 @@ func getRepeated(ppwd *[]byte) map[byte]int {
 		}
 	}
 
-	return repeated
+	return repeated, nil
 }

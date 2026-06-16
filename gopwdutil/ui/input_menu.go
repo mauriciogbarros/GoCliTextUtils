@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func InputMenu() int {
+func InputMenu() (int, error) {
 	fmt.Println("========== Input Utils ===========")
 	fmt.Println("1) Manual input")
 	fmt.Println("2) Load from clipboard")

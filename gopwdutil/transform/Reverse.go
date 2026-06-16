@@ -2,11 +2,12 @@ package transform
 
 import (
 	"fmt"
+	"gopwdutil/tools"
 )
 
-func Reverse(ppwd *[]byte) {
+func Reverse(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	fmt.Println("Reversing password... ")
@@ -16,4 +17,6 @@ func Reverse(ppwd *[]byte) {
 	fmt.Println("Reversed password:", string(*ppwd))
 	fmt.Print("Press Enter to continue... ")
 	fmt.Scanln()
+
+	return nil
 }

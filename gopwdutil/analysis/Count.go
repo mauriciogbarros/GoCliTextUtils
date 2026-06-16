@@ -1,20 +1,20 @@
 package analysis
 
 import (
+	"errors"
 	"fmt"
 	"gopwdutil/tools"
 	"strings"
 )
 
-func Count(ppwd *[]byte, choice int) {
+func Count(ppwd *[]byte, choice int) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
-	count := getCount(ppwd, choice)
-	if count == -1 {
-		fmt.Println("Error: password is nil")
-		return
+	count, err := getCount(ppwd, choice)
+	if err != nil {
+		return err
 	}
 
 	countType := getCountType(choice)
@@ -23,6 +23,8 @@ func Count(ppwd *[]byte, choice int) {
 	fmt.Printf("======> %s count: %d %s\n", countType, count, countUnit)
 	fmt.Print("        Press Enter to continue... ")
 	fmt.Scanln()
+
+	return nil
 }
 
 func getCountType(choice int) string {
@@ -47,29 +49,31 @@ func getCountType(choice int) string {
 	return countType
 }
 
-func getCount(ppwd *[]byte, choice int) int {
+func getCount(ppwd *[]byte, choice int) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
-	count := 0
+	var count int
+	var err error
+
 	switch choice {
 	case 1:
-		count = countChar(ppwd)
+		count, err = countChar(ppwd)
 	case 2:
-		count = countWord(ppwd)
+		count, err = countWord(ppwd)
 	case 3:
-		count = countLetter(ppwd)
+		count, err = countLetter(ppwd)
 	case 4:
-		count = countUpper(ppwd)
+		count, err = countUpper(ppwd)
 	case 5:
-		count = countLower(ppwd)
+		count, err = countLower(ppwd)
 	case 6:
-		count = countNumeric(ppwd)
+		count, err = countNumeric(ppwd)
 	case 7:
-		count = countSpecial(ppwd)
+		count, err = countSpecial(ppwd)
 	}
 
-	return count
+	return count, err
 }
 
 func getCountUnit(count int, choice int) string {
@@ -100,27 +104,27 @@ func getCountUnit(count int, choice int) string {
 	return unit
 }
 
-func countChar(ppwd *[]byte) int {
+func countChar(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, errors.New("password is nil")
 	}
-	return len(strings.ReplaceAll(string(*ppwd), " ", ""))
+	return len(strings.ReplaceAll(string(*ppwd), " ", "")), nil
 }
 
-func countWord(ppwd *[]byte) int {
+func countWord(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
-	return len(strings.Fields(string(*ppwd)))
+	return len(strings.Fields(string(*ppwd))), nil
 }
 
-func countLetter(ppwd *[]byte) int {
+func countLetter(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
-	var letters = append(lowercase, uppercase...)
+	var letters = append(tools.LowerChar, tools.UpperChar...)
 
 	count := 0
 	for i := range *ppwd {
@@ -129,65 +133,65 @@ func countLetter(ppwd *[]byte) int {
 		}
 	}
 
-	return count
+	return count, nil
 }
 
-func countUpper(ppwd *[]byte) int {
+func countUpper(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsByte((*ppwd)[i], uppercase) {
+		if tools.ContainsByte((*ppwd)[i], tools.UpperChar) {
 			count += 1
 		}
 	}
 
-	return count
+	return count, nil
 }
 
-func countLower(ppwd *[]byte) int {
+func countLower(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsByte((*ppwd)[i], lowercase) {
+		if tools.ContainsByte((*ppwd)[i], tools.LowerChar) {
 			count += 1
 		}
 	}
 
-	return count
+	return count, nil
 }
 
-func countNumeric(ppwd *[]byte) int {
+func countNumeric(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsByte((*ppwd)[i], numeric) {
+		if tools.ContainsByte((*ppwd)[i], tools.NumericChar) {
 			count += 1
 		}
 	}
 
-	return count
+	return count, nil
 }
 
-func countSpecial(ppwd *[]byte) int {
+func countSpecial(ppwd *[]byte) (int, error) {
 	if ppwd == nil {
-		return -1
+		return 0, tools.Errors.NilError
 	}
 
 	count := 0
 	for i := range *ppwd {
-		if tools.ContainsByte((*ppwd)[i], special) {
+		if tools.ContainsByte((*ppwd)[i], tools.SpecialChar) {
 			count += 1
 		}
 	}
 
-	return count
+	return count, nil
 }

@@ -3,19 +3,24 @@ package utils
 import (
 	"fmt"
 	"gopwdutil/output"
+	"gopwdutil/tools"
 	"gopwdutil/ui"
 )
 
-func Output(ppwd *[]byte) {
+func Output(ppwd *tools.Password) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	returnToMain := false
-	choice := 0
+	var choice int
+	var err error
 
 	for !returnToMain {
-		choice = ui.OutputMenu()
+		choice, err = ui.OutputMenu()
+		if err != nil {
+			return tools.Errors.NilError
+		}
 
 		switch choice {
 		case 0:
@@ -29,4 +34,6 @@ func Output(ppwd *[]byte) {
 		}
 		fmt.Println()
 	}
+
+	return nil
 }

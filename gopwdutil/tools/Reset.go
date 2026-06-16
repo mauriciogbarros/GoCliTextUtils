@@ -1,15 +1,15 @@
 package tools
 
-func Reset(ppwd *[]byte) {
-	if ppwd == nil {
+func Reset(word *[]byte) {
+	if word == nil {
 		return
 	}
 
 	// Zero out each byte before shrinking to prevent lingering sensitive data in memory
-	for i := range *ppwd {
-		(*ppwd)[i] = 0
+	for i := range *word {
+		(*word)[i] = 0
 	}
 
 	// Shrink slice length without freeing the underlying array
-	*ppwd = (*ppwd)[:0]
+	*word = (*word)[:0]
 }

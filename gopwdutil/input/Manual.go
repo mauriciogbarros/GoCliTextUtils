@@ -6,13 +6,13 @@ import (
 	"strings"
 )
 
-func Manual(ppwd *[]byte, minLength int, maxLength int) {
+func Manual(ppwd *[]byte) error {
 	if ppwd == nil {
-		return
+		return tools.Errors.NilError
 	}
 
 	fmt.Println("========== Manual Input ==========")
-	fmt.Printf("From %d to %d characters long\n", minLength, maxLength)
+	fmt.Printf("From %d to %d characters long\n", tools.MinPassword, tools.MaxPassword)
 	fmt.Print("New password: ")
 
 	var newPwd []byte
@@ -20,7 +20,7 @@ func Manual(ppwd *[]byte, minLength int, maxLength int) {
 		b, err := tools.Reader.ReadByte()
 		if err != nil {
 			fmt.Println("Error: failed to capture")
-			return
+			return tools.Errors.CaptureError
 		}
 		if b == '\n' || b == '\r' {
 			break
@@ -29,29 +29,23 @@ func Manual(ppwd *[]byte, minLength int, maxLength int) {
 		newPwd = append(newPwd, b)
 	}
 
-	if len(newPwd) < minLength || len(newPwd) > maxLength {
+	if len(newPwd) < tools.MinPassword || len(newPwd) > tools.MaxPassword {
 		fmt.Println("Error: invalid password length.")
-		for i := range newPwd {
-			newPwd[i] = 0
-		}
-		return
+		tools.Reset(&newPwd)
+		return tools.Errors.LengthError
 	}
 
 	if strings.TrimSpace(string(newPwd)) == "" {
 		fmt.Println("Error: white space only.")
-		for i := range newPwd {
-			newPwd[i] = 0
-		}
-		return
+		tools.Reset(&newPwd)
+		return tools.Errors.WhiteSpace
 	}
 
 	tools.Reset(ppwd)
 
-	for i := 0; i < len(newPwd); i++ {
-		*ppwd = append(*ppwd, newPwd[i])
-	}
+	*ppwd = append(*ppwd, newPwd...)
 
-	for i := range newPwd {
-		newPwd[i] = 0
-	}
+	tools.Reset(&newPwd)
+
+	return nil
 }

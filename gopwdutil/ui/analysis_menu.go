@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func AnalysisMenu() int {
+func AnalysisMenu() (int, error) {
 	fmt.Println("======== Analysis Utils ==========")
 	fmt.Println("1) Character count")
 	fmt.Println("2) Word count")
