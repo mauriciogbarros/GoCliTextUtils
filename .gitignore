@@ -1,0 +1,55 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of the go coverage tool
+*.coverprofile
+
+# Go workspace and mod cache
+/go.work
+/go.sum
+
+# Vendor directory if populated and not committed
+/vendor/
+
+# Build directories
+/bin/
+/pkg/
+
+# IDE/editor metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# macOS files
+.AppleDouble
+.LSOverride
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Generated files
+*.exe~
+
+# Environment files
+.env
+.env.*
+
+# Clipboard and output data files
+*.clipboard
+
+# Coverage results
+coverage.out
+
+# Node modules if any front-end tooling is added later
+node_modules/
