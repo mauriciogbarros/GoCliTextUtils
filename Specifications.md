@@ -3,8 +3,8 @@
 ## 1. Project Summary
 
 **Project name:** `gopwdutil`  
-**Type:** Interactive command-line application to create and analyse a password
-**Goal:** Build a small but well-structured Go CLI that lets a user enter text and run simple analyses/transforms on it.
+**Type:** Interactive command-line application to create and analyse a password  
+**Goal:** A menu-driven Go CLI that lets a user input a password, run analyses and transformations on it, and export the results.
 
 ---
 
@@ -12,122 +12,136 @@
 
 By the end of the project, the CLI should let the user:
 
-- enter a piece of text,
-- choose one utility from a menu,
+- enter a password (manually, from clipboard, or randomly generated),
+- choose from analysis, transformation, and output submenus,
 - see the result,
 - and continue using the program until they choose to exit.
 
 ---
 
 ## 3. Functional Scope
-### 3.1 Counts
+
+### 3.1 Counts (`analysis` package)
+
 #### 3.1.1 Character count
-Return the total number of characters in the input text.
+Returns the number of non-whitespace characters.
 
 **Example:**  
 Input: `hello world`  
-Output: `11 characters`
+Output: `Character count: 10 characters`
 
 ---
 
 #### 3.1.2 Word count
-Return the number of words in the input text.
+Returns the number of words (split by whitespace, ignoring empty segments).
 
 **Example:**  
 Input: `Go is fun`  
-Output: `3 words`
+Output: `Word count: 3 words`
 
 ---
 
-#### 3.1.3 Vowel count
-Count how many vowels appear in the text.
-
-**Example:**  
-Input: `Go is fun`  
-Output: `3 vowels`
+#### 3.1.3 Letter count
+Returns the number of alphabetic characters (upper + lower).
 
 ---
 
-#### 3.1.4 Consonant count
-Count how many consonants appear in the text.
-
-**Example:**
-Input: `Go is fun`
-Output: `4 consonants`
+#### 3.1.4 Uppercase count
+Returns the number of uppercase letters.
 
 ---
 
-#### 3.1.5 Number count
-Count how many numbers appear in the text.
-
-**Example:**
-Input: `Go is 1-2-3 fun`
-Output: `3 numbers`
+#### 3.1.5 Lowercase count
+Returns the number of lowercase letters.
 
 ---
 
-#### 3.1.6 Special character count
-Count how many non-alphanumeric characters appear in the text.
-|Name|Character|Type|ASCII|
-|:---:|:---:|:---:|:---:|
-|Space|` `|Whitespace||
-|Period/Full stop|`.`|Punctuation||
-|Comma|`,`|Punctuation||
-|Semicolon|`;`|Punctuation||
-|Colon|`:`|Punctuation||
-|Exclamation mark|`!`|Punctuation||
-|Question mark|`?`|Punctuation||
-|Apostrophe|`'`|Quotation||
-|Double quote|`"`|Quotation||
-|Opening parentheses|`(`|Brackets||
-|Closing parentheses|`)`|Brackets||
-|Opening square bracket|`[`|Brackets||
-|Closing square bracket|`]`|Brackets||
-|Opening curly brace|`{`|Brackets||
-|Closing curly brace|`}`|Brackets||
-|Opening angle bracket|`<`|Brackets||
-|Closing angle bracket|`>`|Brackets||
-|Hyphen/Minus|`-`|Slashes||
-|Underscore|`_`|Slashes||
-|Forward slash|`/`|Slashes||
-|Backslash|`\`|Slashes||
-|Vertical bar/Pipe|`|`|Slashes||
-|Plus|`+`|Math||
-|Asterisk|`*`|Math||
-|Equals|`=`|Math||
-|Percent|`%`|Math||
-|Caret|`^`|Math||
-|At sign|`@`|Special||
-|Hash / number sign|`#`|Special||
-|Dollar sign|`$`|Special||
-|Ampersand|`&`|Special||
-|Tilde|`~`|Special||
-|Backtick / grave accent|`\``|Special||
-
-**Example:**
-Input: `Go is @1-2-3 fun`
-Output: `6 special characters`
+#### 3.1.6 Numeric count
+Returns the number of digit characters.
 
 ---
 
-### 3.2 Case detection
-Report:
-- whether the text is all uppercase,
-- all lowercase,
-- mixed case,
+#### 3.1.7 Special character count
+Returns the number of non-alphanumeric characters from the defined set:
 
-**Example:**  
-Input: `HELLO` → `all uppercase`  
-Input: `hello` → `all lowercase`  
-Input: `Hello123` → `mixed case`
+| Name | Character | Type |
+|:---:|:---:|:---:|
+| Space | ` ` | Whitespace |
+| Period | `.` | Punctuation |
+| Comma | `,` | Punctuation |
+| Semicolon | `;` | Punctuation |
+| Colon | `:` | Punctuation |
+| Exclamation mark | `!` | Punctuation |
+| Question mark | `?` | Punctuation |
+| Apostrophe | `'` | Quotation |
+| Double quote | `"` | Quotation |
+| Opening parentheses | `(` | Brackets |
+| Closing parentheses | `)` | Brackets |
+| Opening square bracket | `[` | Brackets |
+| Closing square bracket | `]` | Brackets |
+| Opening curly brace | `{` | Brackets |
+| Closing curly brace | `}` | Brackets |
+| Opening angle bracket | `<` | Brackets |
+| Closing angle bracket | `>` | Brackets |
+| Hyphen/Minus | `-` | Slashes |
+| Underscore | `_` | Slashes |
+| Forward slash | `/` | Slashes |
+| Backslash | `\` | Slashes |
+| Vertical bar/Pipe | `\|` | Slashes |
+| Plus | `+` | Math |
+| Asterisk | `*` | Math |
+| Equals | `=` | Math |
+| Percent | `%` | Math |
+| Caret | `^` | Math |
+| At sign | `@` | Special |
+| Hash | `#` | Special |
+| Dollar sign | `$` | Special |
+| Ampersand | `&` | Special |
+| Tilde | `~` | Special |
+| Backtick | `` ` `` | Special |
 
 ---
 
-### 3.3 Transformations
-https://www.geeksforgeeks.org/computer-networks/encryption-vs-hashing-vs-salting/
+#### 3.1.8 Repeated character counts
+Reports characters that appear more than once and how many times each appears.
 
-#### 3.3.1 Reverse text
-Return the input text reversed.
+---
+
+### 3.2 Strength Analysis (`analysis` package)
+
+A scoring-based system that outputs a label: `Weak`, `Fair`, `Strong`, or `Very Strong`.
+
+**Scoring components:**
+
+- Length score (exponential tiers):
+  - `>= 8` → +2
+  - `>= 14` → +4
+  - `>= 18` → +8
+  - `>= 36` → +16
+  - `>= 72` → +32
+- Uppercase count: +1 per character
+- Lowercase count: +1 per character
+- Numeric count: +1 per character
+- Special character count: +1 per character
+- Repeated character penalty (fewer repeats = higher score):
+  - 0 repeated types → +8
+  - 1 → +4
+  - 2 → +2
+  - 3 → +1
+  - 4+ → +0
+
+**Labels:**
+- `score >= 16` → `Very Strong`
+- `score >= 10` → `Strong`
+- `score >= 4` → `Fair`
+- default → `Weak`
+
+---
+
+### 3.3 Transformations (`transform` package)
+
+#### 3.3.1 Reverse
+Reverses the password in-place and displays the result.
 
 **Example:**  
 Input: `gopher`  
@@ -135,431 +149,370 @@ Output: `rehpog`
 
 ---
 
-#### 3.3.1 Add salt
-
-
----
-
-#### 3.3.2 Hash it
-
+#### 3.3.2 Scramble
+Randomly shuffles the characters of the password using a Fisher-Yates-style selection with `crypto/rand`.
 
 ---
 
-#### 3.3.3 Encode it
-
-
----
-
-### 3.4. Password strength checker
-Classify a string as:
-- `weak`
-- `medium`
-- `strong`
-
-Suggested rules:
-- **weak**: too short or only one character type
-- **medium**: sufficient length with some variety
-- **strong**: longer text with uppercase, lowercase, and digits
-
-This is a very good fit because it combines **loops**, **boolean flags**, and **conditionals**.
+#### 3.3.3 Pepper
+Prompts the user to manually enter a pepper string (16–32 characters). Stored in `Password.Pepper`.
 
 ---
 
-## Nice-to-have features (optional, not required)
-These are good only if you finish early:
-
-- digit count
-- whitespace count
-- palindrome check
-- title-case conversion
-- repeated-character detector
-
-I’d keep these out of the first version so the project stays aligned with Chapters 1–4 rather than growing too wide too early.
+#### 3.3.4 Salt
+Generates a cryptographically random salt (16–32 characters, all character sets). Stored in `Password.Salt`.
 
 ---
 
-## 4) Non-Goals
+#### 3.3.5 Hash
+Hashes the password using **Argon2id** (`golang.org/x/crypto/argon2`) with:
+- Input: `password + pepper` as the key
+- Input: `salt` as the salt
+- Parameters: `t=3`, `m=62*1024 KB`, `p=1`, `keyLen=32`
+- Output: base64-encoded key stored in `Password.HashedKey`
 
-To keep the scope disciplined, I suggest **not** including these in v1:
-
-- file input/output
-- command-line flags parsing
-- persistent history
-- colored terminal output
-- external libraries
-- advanced Unicode normalization
-- heavy use of arrays/slices/maps as central architecture
-
-Those are all valid additions later, but they are not necessary to consolidate the first four chapters.
+Warns if salt or pepper is missing before hashing.
 
 ---
 
-## 5) User Experience Specification
+### 3.4 Input Methods (`input` package)
 
-## App flow
+#### 3.4.1 Manual input
+Prompts the user to type a password directly. Length must be 8–72 characters. Whitespace-only input is rejected.
 
-When the program starts, it should show:
+#### 3.4.2 Load from clipboard
+Clears the clipboard, waits for the user to copy a value, then reads it. Same length and whitespace validation as manual input. Clears the clipboard after reading.
+
+#### 3.4.3 Generate random
+Prompts the user for a desired length (8–72), then generates a random password using `crypto/rand` from the full character set (lower + upper + numeric + special).
+
+---
+
+### 3.5 Output Methods (`output` package)
+
+#### 3.5.1 To screen
+Prints password, pepper, salt, and hashed key to stdout.
+
+#### 3.5.2 To clipboard
+Prompts the user to choose which value to copy (password, pepper, salt, or hashed key), then writes it to the system clipboard using `golang.design/x/clipboard`.
+
+#### 3.5.3 To file
+Writes all four values (password, pepper, salt, hashed key) to `output.txt` with `0600` permissions.
+
+> **Note:** Exporting to an external file is part of this exercise only and should not be handled this way in a production scenario.
+
+---
+
+## 4. Non-Goals (v1)
+
+- Advanced Unicode normalization
+- Persistent history or database storage
+- Colored terminal output
+- Command-line flags parsing
+
+---
+
+## 5. User Experience Specification
+
+### App flow
 
 ```text
-=== Text Utilities ===
-1. Character count
-2. Word count
-3. Vowel count
-4. Detect case
-5. Reverse text
-6. Check password strength
-7. Enter new text
-8. Exit
+======= CLI Password Utils =======
+
+=========== Main Menu ============
+Password length: 0
+1) Input tools
+0) Exit
+----------------------------------
+Choice:
 ```
 
-### Expected interaction model
-1. Prompt the user to enter text when the app starts.
-2. Show the menu.
-3. Ask for an option.
-4. Execute the selected utility.
-5. Print the result.
-6. Return to the menu.
-7. Exit only when the user chooses `8`.
-
----
-
-## Input behavior
-- If the user enters an invalid menu option, show an error and re-prompt.
-- If the input text is empty, some features should still work gracefully:
-  - character count → `0`
-  - word count → `0`
-  - reverse → empty output
-  - password strength → likely `weak`
-
----
-
-## 6) Learning Objectives Mapped to Chapters
-
-## Chapter 1: Syntax Basics
-This project should exercise:
-- variable declarations
-- strings and booleans
-- printing output
-- reading input
-- arithmetic comparisons
-- package imports such as `fmt` and possibly `strings` if you decide to use standard helpers minimally. The chapter coverage for syntax basics is explicitly listed in the book materials. citeturn1search6turn1search16
-
-## Chapter 2: Conditionals and Loops
-This project should use:
-- `if` / `else if` / `else`
-- menu-selection branching
-- loops for repeated app usage
-- character-by-character inspection for vowels, digits, and case logic
-
-Conditionals and loops are explicitly the focus of Chapter 2. citeturn1search6
-
-## Chapter 3: Functions
-Each utility should be implemented as its own function.
-Examples:
-- `CountCharacters`
-- `CountWords`
-- `CountVowels`
-- `DetectCase`
-- `ReverseText`
-- `CheckPasswordStrength`
-
-Functions are explicitly the focus of Chapter 3, including return values. citeturn1search6
-
-## Chapter 4: Packages
-The project should be split into multiple packages instead of one oversized `main.go`. Packages are explicitly the focus of Chapter 4. citeturn1search6
-
----
-
-## 7) Proposed Package Structure
-
-I suggest this layout:
+Once a password is loaded (length > 0), the full menu appears:
 
 ```text
-textutils/
+=========== Main Menu ============
+Password length: 12
+1) Input tools
+2) Analysis tools
+3) Transformation tools
+4) Output options
+5) Reset current password
+0) Exit
+----------------------------------
+Choice:
+```
+
+Each option opens a submenu that loops until the user enters `0` to return to the Main Menu.
+
+### Submenus
+
+**Input tools:**
+```text
+========== Input Utils ===========
+1) Manual input
+2) Load from clipboard
+3) Generate random string
+0) Return to Main Menu
+```
+
+**Analysis tools:**
+```text
+======== Analysis Utils ==========
+1) Character count
+2) Word count
+3) Letter count
+4) Upper count
+5) Lower count
+6) Numeric count
+7) Special count
+8) Repeated counts
+9) Strength analysis
+0) Return to Main Menu
+```
+
+**Transformation tools:**
+```text
+====== Transformation Tools ======
+1) Reverse password
+2) Scramble password
+3) Crack fresh pepper
+4) Sprinkle some salt
+5) Hash password
+0) Return to Main Menu
+```
+
+**Output options:**
+```text
+========== Output Utils ==========
+1) To screen
+2) To clipboard
+3) To file
+0) Return to Main Menu
+```
+
+### Input behavior
+- Invalid menu options show an error and re-prompt.
+- Invalid or whitespace-only passwords are rejected with a descriptive error.
+- Password length is validated against `MinPassword=8` and `MaxPassword=72`.
+- Pepper length is validated against `MinPepper=16` and `MaxPepper=32`.
+- Salt length is randomly chosen between `MinSalt=16` and `MaxSalt=32`.
+
+---
+
+## 6. Package Structure
+
+```text
+gopwdutil/
 ├── main.go
 ├── ui/
-│   └── menu.go
+│   ├── main_menu.go
+│   ├── input_menu.go
+│   ├── analysis_menu.go
+│   ├── transform_menu.go
+│   └── output_menu.go
+├── utils/
+│   ├── input.go
+│   ├── analysis.go
+│   ├── transform.go
+│   └── output.go
 ├── analysis/
 │   ├── count.go
-│   ├── casecheck.go
-│   └── password.go
+│   ├── repeated.go
+│   └── strength.go
 ├── transform/
-│   └── reverse.go
-└── input/
-    └── prompt.go
+│   ├── reverse.go
+│   ├── scramble.go
+│   ├── pepper.go
+│   ├── salt.go
+│   └── hash.go
+├── input/
+│   ├── manual.go
+│   ├── from_clipboard.go
+│   └── random.go
+├── output/
+│   ├── to_screen.go
+│   ├── to_clipboard.go
+│   └── to_file.go
+└── tools/
+    ├── tools.go
+    ├── get_choice.go
+    ├── contains_byte.go
+    └── reset.go
 ```
 
-## Package responsibilities
+### Package responsibilities
 
-### `main`
-- application entry point
-- orchestrates the menu loop
-- calls functions from other packages
+| Package | Responsibility |
+|---|---|
+| `main` | Entry point; owns the main menu loop; calls `utils` |
+| `ui` | Renders all menus; returns the user's choice |
+| `utils` | Submenu loop coordinators; bridge between `ui` and logic packages |
+| `analysis` | All counting logic and strength scoring |
+| `transform` | Reverse, scramble, pepper, salt, and hash operations |
+| `input` | Manual, clipboard, and random password input |
+| `output` | Screen, clipboard, and file export |
+| `tools` | Shared constants, types, character sets, errors, and utilities |
 
-### `ui`
-- prints the menu
-- prints section headers or helper prompts
+---
 
-### `input`
-- reads user input
-- trims trailing newline if needed
-- validates menu selections
+## 7. Function-Level Spec
+
+### `tools`
+
+```go
+// Shared type
+type Password struct {
+    Password  []byte
+    Salt      []byte
+    Pepper    []byte
+    HashedKey []byte
+}
+
+// Constants
+MinPassword, MaxPassword = 8, 72
+MinSalt, MaxSalt         = 16, 32
+MinPepper, MaxPepper     = 16, 32
+
+// Character sets
+LowerChar, UpperChar, NumericChar, SpecialChar []byte
+
+// Utilities
+Reset(word *[]byte)                          // zeroes and shrinks slice
+ContainsByte(b byte, ref []byte) bool        // membership check
+GetChoice(maxOption int) (int, error)        // reads and validates an integer menu choice
+```
+
+---
 
 ### `analysis`
-- character count
-- word count
-- vowel count
-- case detection
-- password strength logic
+
+```go
+Count(ppwd *[]byte, choice int) error        // dispatches to one of the count helpers by choice (1–7)
+Repeated(ppwd *[]byte) error                 // prints characters appearing more than once
+Strength(ppwd *[]byte) error                 // prints scoring breakdown and label
+```
+
+Internal helpers (unexported):
+```go
+countChar, countWord, countLetter, countUpper, countLower, countNumeric, countSpecial
+getCount, getCountType, getCountUnit
+getRepeated(ppwd *[]byte) (map[byte]int, error)
+```
+
+---
 
 ### `transform`
-- reverse text
-
-This structure keeps your code modular without introducing concepts that are too advanced for this stage.
-
----
-
-## 8) Function-Level Spec
-
-Here is a **clear functional contract** for each part.
-
-## In `input`
 
 ```go
-ReadText() string
+Reverse(ppwd *[]byte) error
+Scramble(ppwd *[]byte) error
+Pepper(ppepper *[]byte) error
+Salt(psalt *[]byte) error
+Hash(ppwd *Password) error
 ```
-Reads a full line of text from the user and returns it.
+
+---
+
+### `input`
 
 ```go
-ReadOption() int
+Manual(ppwd *[]byte) error
+FromClipboard(ppwd *[]byte) error
+Random(ppwd *[]byte) error
 ```
-Reads a menu choice and returns it as an integer.
 
 ---
 
-## In `ui`
+### `output`
 
 ```go
-PrintWelcome()
-PrintMenu()
-PrintResult(label string, result string)
-PrintError(message string)
+ToScreen(ppwd *Password) error
+ToClipboard(ppwd *Password) error
+ToFile(ppwd *Password) error
 ```
-
-These are intentionally simple and good practice for keeping presentation separate from logic.
 
 ---
 
-## In `analysis`
+### `ui`
 
 ```go
-CountCharacters(text string) int
+MainMenu(length int) (int, error)
+InputMenu() (int, error)
+AnalysisMenu() (int, error)
+TransformMenu() (int, error)
+OutputMenu() (int, error)
 ```
-Returns total character count.
+
+---
+
+### `utils`
 
 ```go
-CountWords(text string) int
-```
-Returns number of words.
-
-```go
-CountVowels(text string) int
-```
-Returns total vowels (`a, e, i, o, u`, case-insensitive).
-
-```go
-DetectCase(text string) string
-```
-Returns one of:
-- `"all uppercase"`
-- `"all lowercase"`
-- `"mixed case"`
-- `"no letters"`
-
-```go
-CheckPasswordStrength(text string) string
-```
-Returns one of:
-- `"weak"`
-- `"medium"`
-- `"strong"`
-
----
-
-## In `transform`
-
-```go
-ReverseText(text string) string
-```
-Returns the reversed version of the text.
-
----
-
-## 9) Logic Rules
-
-## Word count rule
-Suggested rule:
-- split text by spaces after trimming,
-- ignore empty segments created by repeated spaces.
-
-If you prefer to keep it simpler in v1, you can define a “word” as any chunk separated by spaces.
-
-## Vowel count rule
-Count:
-- `a`
-- `e`
-- `i`
-- `o`
-- `u`
-and uppercase versions too.
-
-## Case detection rule
-- if it contains letters and all letters are uppercase → `all uppercase`
-- if it contains letters and all letters are lowercase → `all lowercase`
-- if it contains a mix → `mixed case`
-- if no alphabetic characters are present → `no letters`
-
-## Password strength rule
-A simple and chapter-appropriate rule set:
-
-### Weak
-- length < 8  
-**or**
-- only one type among lowercase / uppercase / digits
-
-### Medium
-- length >= 8
-- at least two of: lowercase / uppercase / digits
-
-### Strong
-- length >= 10
-- contains lowercase, uppercase, and digits
-
-This rule set is simple enough to implement with boolean flags and conditionals.
-
----
-
-## 10) Example Session
-
-```text
-=== Text Utilities ===
-Enter your text:
-Hello123
-
-1. Character count
-2. Word count
-3. Vowel count
-4. Detect case
-5. Reverse text
-6. Check password strength
-7. Enter new text
-8. Exit
-
-Choose an option: 1
-Result: 8 characters
-
-Choose an option: 3
-Result: 2 vowels
-
-Choose an option: 4
-Result: mixed case
-
-Choose an option: 5
-Result: 321olleH
-
-Choose an option: 6
-Result: strong
+Input(ppwd *[]byte) error
+Analysis(ppwd *[]byte) error
+Transform(ppwd *Password) error
+Output(ppwd *Password) error
 ```
 
 ---
 
-## 11) Acceptance Criteria
+## 8. Security Notes
 
-Your v1 is “done” if all of these are true:
-
-- the program compiles and runs from the terminal
-- it starts by asking for text
-- it shows a looped menu
-- each menu option works
-- invalid options are handled cleanly
-- logic is split into multiple functions
-- logic is organized into packages
-- `main.go` mostly coordinates instead of containing all logic
-- there is no duplicated logic for operations like printing menus or validating options
+- Password, pepper, salt, and hashed key are stored as `[]byte` (not `string`) so they can be zeroed in memory.
+- `tools.Reset()` zeros each byte before shrinking the slice, avoiding lingering sensitive data.
+- `main.go` calls `Reset` on all four fields before exit.
+- The "Reset current password" option in the main menu zeroes all four fields.
+- `crypto/rand` is used for all random generation (salt, random password, scramble).
+- Hashing uses Argon2id via `golang.org/x/crypto/argon2`.
 
 ---
 
-## 12) Suggested Build Plan
+## 9. External Dependencies
 
-## Phase 1 — Skeleton
-Build:
-- `main.go`
-- basic text input
-- menu loop
-- exit option
-
-## Phase 2 — First utilities
-Add:
-- character count
-- reverse text
-- vowel count
-
-These give fast progress and confidence.
-
-## Phase 3 — Decision-heavy utilities
-Add:
-- case detection
-- password strength checker
-
-These deepen the Chapter 2 practice.
-
-## Phase 4 — Refactor
-Move code into:
-- `analysis`
-- `transform`
-- `input`
-- `ui`
-
-This is where you really consolidate Chapter 4.
+| Module | Usage |
+|---|---|
+| `golang.org/x/crypto/argon2` | Argon2id password hashing |
+| `golang.design/x/clipboard` | Clipboard read/write |
 
 ---
 
-## 13) Stretch Goal for a “Chapter 4 polished” version
+## 10. Argon2 Parameter Reference
 
-If you want one optional improvement that still feels appropriate, add:
+### Time cost (t)
+- Number of times Argon2 iterates over its memory
+- Increases CPU work; roughly linear impact on runtime
+- This project uses: `t = 3`
 
-### “Analyze all”
-A menu option that prints:
-- character count
-- word count
-- vowel count
-- case classification
-- password strength
+### Memory cost (m)
+- Amount of RAM (in KB) Argon2 uses
+- Main defense against GPU/ASIC parallelism
+- This project uses: `m = 62 * 1024 KB` (~62 MB)
 
-for the current text all at once.
+### Parallelism (p)
+- Number of threads used during hashing
+- This project uses: `p = 1`
 
-That is still compatible with Chapters 1–4 and makes the tool feel much more complete.
-
----
-
-## 14) My recommendation on implementation order
-
-If you want the smoothest path, I’d build in this exact order:
-
-1. enter text  
-2. menu loop  
-3. character count  
-4. reverse text  
-5. vowel count  
-6. word count  
-7. case detection  
-8. password checker  
-9. package refactor
-
-That ordering lets you ship a working version very early, then improve structure afterward.
+### Key length (l)
+- Length of the resulting hash in bytes
+- This project uses: `l = 32` (encoded as base64 string)
 
 ---
 
-# Final Spec Summary
+## 11. Acceptance Criteria
 
-**CLI Text Utilities** should be a menu-driven Go command-line app that stores one active text input and lets the user run a set of simple analysis and transformation operations on it. It should be deliberately scoped to practice **syntax basics**, **conditionals/loops**, **functions**, and **packages**, which is exactly what Chapters 1–4 cover. citeturn1search6turn1search16turn1search46
+- The program compiles and runs from the terminal
+- It starts by showing the main menu with password length
+- Full menu options appear only after a password is loaded
+- Each submenu loops until the user returns to the main menu
+- Invalid options are handled without crashing
+- All sensitive byte slices are zeroed before the program exits
+- Logic is organized into the packages described above
+- `main.go` only coordinates the top-level loop
+
+---
+
+## 12. Improvements (Backlog)
+
+- Input → Random → Allow the user to choose which character sets to include
+- Tools → Refine `SpecialChar` into subcategories (punctuation, math, brackets, etc.)
+- Implement batch processing of multiple passwords
